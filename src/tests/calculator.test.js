@@ -1,4 +1,4 @@
-const { add, subtract, multiply, divide, runCli } = require('../calculator');
+const { add, subtract, multiply, divide, modulo, power, squareRoot, runCli } = require('../calculator');
 
 describe('calculator basic operations', () => {
   test('addition works for image example 2 + 3', () => {
@@ -28,6 +28,26 @@ describe('calculator basic operations', () => {
   test('division throws on divide by zero', () => {
     expect(() => divide(10, 0)).toThrow('Division by zero');
   });
+
+  test('modulo returns remainder', () => {
+    expect(modulo(10, 3)).toBe(1);
+  });
+
+  test('power returns exponentiation result', () => {
+    expect(power(2, 4)).toBe(16);
+  });
+
+  test('squareRoot returns square root', () => {
+    expect(squareRoot(81)).toBe(9);
+  });
+
+  test('squareRoot throws on negative numbers', () => {
+    expect(() => squareRoot(-1)).toThrow('Square root of negative number is not allowed');
+  });
+
+  test('modulo throws on zero divisor', () => {
+    expect(() => modulo(5, 0)).toThrow('Modulo by zero');
+  });
 });
 
 describe('calculator CLI runner', () => {
@@ -47,7 +67,35 @@ describe('calculator CLI runner', () => {
     expect(runCli(['divide', '12', '3'])).toBe(4);
   });
 
+  test('runCli supports modulo', () => {
+    expect(runCli(['modulo', '5', '2'])).toBe(1);
+  });
+
+  test('runCli supports power', () => {
+    expect(runCli(['power', '2', '3'])).toBe(8);
+  });
+
+  test('runCli supports squareRoot', () => {
+    expect(runCli(['squareRoot', '9'])).toBe(3);
+  });
+
+  test('runCli supports image example modulo with 5 % 2', () => {
+    expect(runCli(['modulo', '5', '2'])).toBe(1);
+  });
+
+  test('runCli supports image example power with 2 ^ 3', () => {
+    expect(runCli(['power', '2', '3'])).toBe(8);
+  });
+
+  test('runCli supports image example square root with √16', () => {
+    expect(runCli(['squareRoot', '16'])).toBe(4);
+  });
+
+  test('runCli squareRoot rejects negative numbers', () => {
+    expect(() => runCli(['squareRoot', '-16'])).toThrow('Square root of negative number is not allowed');
+  });
+
   test('runCli rejects unsupported operation', () => {
-    expect(() => runCli(['modulo', '5', '2'])).toThrow('Unsupported operation: modulo');
+    expect(() => runCli(['unknown', '5', '2'])).toThrow('Unsupported operation: unknown');
   });
 });

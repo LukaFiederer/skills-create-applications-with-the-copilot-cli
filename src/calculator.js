@@ -27,6 +27,24 @@ function divide(a, b) {
   return a / b;
 }
 
+function modulo(a, b) {
+  if (b === 0) {
+    throw new Error('Modulo by zero');
+  }
+  return a % b;
+}
+
+function power(base, exponent) {
+  return base ** exponent;
+}
+
+function squareRoot(n) {
+  if (n < 0) {
+    throw new Error('Square root of negative number is not allowed');
+  }
+  return Math.sqrt(n);
+}
+
 function parseNumber(value) {
   const parsed = Number(value);
   if (Number.isNaN(parsed)) {
@@ -38,14 +56,17 @@ function parseNumber(value) {
 function runCli(args) {
   const [operation, ...rawNumbers] = args;
 
-  if (!operation || rawNumbers.length < 2) {
-    throw new Error('Usage: node src/calculator.js <add|subtract|multiply|divide> <num1> <num2> [num3 ...]');
+  if (!operation) {
+    throw new Error('Usage: node src/calculator.js <add|subtract|multiply|divide|modulo|power|squareRoot> <num1> <num2> [num3 ...]');
   }
 
   const numbers = rawNumbers.map(parseNumber);
 
   switch (operation) {
     case 'add':
+      if (numbers.length < 2) {
+        throw new Error('Addition requires at least 2 numbers');
+      }
       return add(...numbers);
     case 'subtract':
       if (numbers.length !== 2) {
@@ -53,12 +74,30 @@ function runCli(args) {
       }
       return subtract(numbers[0], numbers[1]);
     case 'multiply':
+      if (numbers.length < 2) {
+        throw new Error('Multiplication requires at least 2 numbers');
+      }
       return multiply(...numbers);
     case 'divide':
       if (numbers.length !== 2) {
         throw new Error('Division requires exactly 2 numbers');
       }
       return divide(numbers[0], numbers[1]);
+    case 'modulo':
+      if (numbers.length !== 2) {
+        throw new Error('Modulo requires exactly 2 numbers');
+      }
+      return modulo(numbers[0], numbers[1]);
+    case 'power':
+      if (numbers.length !== 2) {
+        throw new Error('Power requires exactly 2 numbers');
+      }
+      return power(numbers[0], numbers[1]);
+    case 'squareRoot':
+      if (numbers.length !== 1) {
+        throw new Error('Square root requires exactly 1 number');
+      }
+      return squareRoot(numbers[0]);
     default:
       throw new Error(`Unsupported operation: ${operation}`);
   }
@@ -79,5 +118,8 @@ module.exports = {
   subtract,
   multiply,
   divide,
+  modulo,
+  power,
+  squareRoot,
   runCli,
 };
