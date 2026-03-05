@@ -6,6 +6,9 @@
  * - subtraction
  * - multiplication
  * - division
+ * - modulo
+ * - power
+ * - squareRoot
  */
 
 function add(...values) {
