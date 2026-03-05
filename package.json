@@ -1,0 +1,11 @@
+{
+  "name": "calculator",
+  "version": "1.0.0",
+  "description": "A Node.js CLI calculator supporting basic and extended operations",
+  "main": "src/calculator.js",
+  "scripts": {
+    "test": "node --test src/tests/calculator.test.js"
+  },
+  "keywords": ["calculator", "cli", "nodejs"],
+  "license": "MIT"
+}
