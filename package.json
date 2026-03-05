@@ -1,11 +1,23 @@
 {
-  "name": "calculator",
+  "name": "skills-create-applications-with-the-copilot-cli",
   "version": "1.0.0",
-  "description": "A Node.js CLI calculator supporting basic and extended operations",
-  "main": "src/calculator.js",
+  "description": "<img src=\"https://octodex.github.com/images/Professortocat_v2.png\" align=\"right\" height=\"200px\" />",
+  "main": "index.js",
   "scripts": {
-    "test": "node --test src/tests/calculator.test.js"
+    "test": "jest --runInBand"
   },
-  "keywords": ["calculator", "cli", "nodejs"],
-  "license": "MIT"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LukaFiederer/skills-create-applications-with-the-copilot-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LukaFiederer/skills-create-applications-with-the-copilot-cli/issues"
+  },
+  "homepage": "https://github.com/LukaFiederer/skills-create-applications-with-the-copilot-cli#readme",
+  "devDependencies": {
+    "jest": "^30.2.0"
+  }
 }

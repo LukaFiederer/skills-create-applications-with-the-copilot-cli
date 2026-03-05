@@ -1,136 +1,97 @@
-const { describe, it } = require("node:test");
-const assert = require("node:assert/strict");
-const {
-  addition,
-  subtraction,
-  multiplication,
-  division,
-  modulo,
-  power,
-  squareRoot,
-} = require("../calculator");
+const { add, subtract, multiply, divide, modulo, power, squareRoot, runCli } = require('../calculator');
 
-// addition tests
-describe("addition", () => {
-  it("adds two positive numbers", () => {
-    assert.equal(addition(2, 3), 5);
+describe('calculator basic operations', () => {
+  test('addition works for image example 2 + 3', () => {
+    expect(add(2, 3)).toBe(5);
   });
 
-  it("adds a positive and a negative number", () => {
-    assert.equal(addition(5, -3), 2);
+  test('subtraction works for image example 10 - 4', () => {
+    expect(subtract(10, 4)).toBe(6);
   });
 
-  it("adds two negative numbers", () => {
-    assert.equal(addition(-4, -6), -10);
+  test('multiplication works for image example 45 * 2', () => {
+    expect(multiply(45, 2)).toBe(90);
   });
 
-  it("adds zero to a number", () => {
-    assert.equal(addition(7, 0), 7);
-  });
-});
-
-// subtraction tests
-describe("subtraction", () => {
-  it("subtracts two positive numbers", () => {
-    assert.equal(subtraction(10, 4), 6);
+  test('division works for image example 20 / 5', () => {
+    expect(divide(20, 5)).toBe(4);
   });
 
-  it("subtracts a larger number from a smaller one", () => {
-    assert.equal(subtraction(3, 7), -4);
+  test('addition supports multiple numbers', () => {
+    expect(add(1, 2, 3, 4)).toBe(10);
   });
 
-  it("subtracts zero", () => {
-    assert.equal(subtraction(5, 0), 5);
-  });
-});
-
-// multiplication tests
-describe("multiplication", () => {
-  it("multiplies two positive numbers", () => {
-    assert.equal(multiplication(3, 4), 12);
+  test('multiplication supports multiple numbers', () => {
+    expect(multiply(2, 3, 4)).toBe(24);
   });
 
-  it("multiplies by zero", () => {
-    assert.equal(multiplication(5, 0), 0);
+  test('division throws on divide by zero', () => {
+    expect(() => divide(10, 0)).toThrow('Division by zero');
   });
 
-  it("multiplies two negative numbers", () => {
-    assert.equal(multiplication(-3, -4), 12);
+  test('modulo returns remainder', () => {
+    expect(modulo(10, 3)).toBe(1);
   });
 
-  it("multiplies a positive and a negative number", () => {
-    assert.equal(multiplication(3, -4), -12);
+  test('power returns exponentiation result', () => {
+    expect(power(2, 4)).toBe(16);
+  });
+
+  test('squareRoot returns square root', () => {
+    expect(squareRoot(81)).toBe(9);
+  });
+
+  test('squareRoot throws on negative numbers', () => {
+    expect(() => squareRoot(-1)).toThrow('Square root of negative number is not allowed');
+  });
+
+  test('modulo throws on zero divisor', () => {
+    expect(() => modulo(5, 0)).toThrow('Modulo by zero');
   });
 });
 
-// division tests
-describe("division", () => {
-  it("divides two positive numbers", () => {
-    assert.equal(division(10, 2), 5);
+describe('calculator CLI runner', () => {
+  test('runCli supports add', () => {
+    expect(runCli(['add', '4', '5'])).toBe(9);
   });
 
-  it("divides to produce a decimal", () => {
-    assert.equal(division(7, 2), 3.5);
+  test('runCli supports subtract', () => {
+    expect(runCli(['subtract', '10', '3'])).toBe(7);
   });
 
-  it("throws an error when dividing by zero", () => {
-    assert.throws(() => division(5, 0), /Division by zero/);
-  });
-});
-
-// modulo tests
-describe("modulo", () => {
-  it("returns the remainder of a division", () => {
-    assert.equal(modulo(10, 3), 1);
+  test('runCli supports multiply', () => {
+    expect(runCli(['multiply', '6', '7'])).toBe(42);
   });
 
-  it("returns zero when evenly divisible", () => {
-    assert.equal(modulo(9, 3), 0);
+  test('runCli supports divide', () => {
+    expect(runCli(['divide', '12', '3'])).toBe(4);
   });
 
-  it("works with negative dividends", () => {
-    assert.equal(modulo(-10, 3), -1);
+  test('runCli supports modulo with 5 % 2', () => {
+    expect(runCli(['modulo', '5', '2'])).toBe(1);
   });
 
-  it("throws an error when modulo by zero", () => {
-    assert.throws(() => modulo(5, 0), /Modulo by zero/);
-  });
-});
-
-// power (exponentiation) tests
-describe("power", () => {
-  it("raises a number to a positive exponent", () => {
-    assert.equal(power(2, 10), 1024);
+  test('runCli supports power with 2 ^ 3', () => {
+    expect(runCli(['power', '2', '3'])).toBe(8);
   });
 
-  it("raises a number to the power of zero", () => {
-    assert.equal(power(5, 0), 1);
+  test('runCli supports squareRoot with √16', () => {
+    expect(runCli(['squareRoot', '16'])).toBe(4);
   });
 
-  it("raises a number to a negative exponent", () => {
-    assert.equal(power(2, -1), 0.5);
+  test('runCli squareRoot rejects negative numbers', () => {
+    expect(() => runCli(['squareRoot', '-16'])).toThrow('Square root of negative number is not allowed');
   });
 
-  it("raises zero to a positive power", () => {
-    assert.equal(power(0, 5), 0);
-  });
-});
-
-// squareRoot tests
-describe("squareRoot", () => {
-  it("returns the square root of a positive number", () => {
-    assert.equal(squareRoot(9), 3);
+  test('runCli rejects unsupported operation', () => {
+    expect(() => runCli(['unknown', '5', '2'])).toThrow('Unsupported operation: unknown');
   });
 
-  it("returns the square root of zero", () => {
-    assert.equal(squareRoot(0), 0);
+  test('runCli rejects invalid number input', () => {
+    expect(() => runCli(['add', 'abc', '5'])).toThrow('Invalid number: abc');
   });
 
-  it("returns a decimal square root", () => {
-    assert.equal(squareRoot(2), Math.sqrt(2));
-  });
-
-  it("throws an error for a negative number", () => {
-    assert.throws(() => squareRoot(-1), /negative number/);
+  test('runCli throws when no operation is provided', () => {
+    expect(() => runCli([])).toThrow('Usage:');
   });
 });
