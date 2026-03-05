@@ -67,27 +67,15 @@ describe('calculator CLI runner', () => {
     expect(runCli(['divide', '12', '3'])).toBe(4);
   });
 
-  test('runCli supports modulo', () => {
+  test('runCli supports modulo with 5 % 2', () => {
     expect(runCli(['modulo', '5', '2'])).toBe(1);
   });
 
-  test('runCli supports power', () => {
+  test('runCli supports power with 2 ^ 3', () => {
     expect(runCli(['power', '2', '3'])).toBe(8);
   });
 
-  test('runCli supports squareRoot', () => {
-    expect(runCli(['squareRoot', '9'])).toBe(3);
-  });
-
-  test('runCli supports image example modulo with 5 % 2', () => {
-    expect(runCli(['modulo', '5', '2'])).toBe(1);
-  });
-
-  test('runCli supports image example power with 2 ^ 3', () => {
-    expect(runCli(['power', '2', '3'])).toBe(8);
-  });
-
-  test('runCli supports image example square root with √16', () => {
+  test('runCli supports squareRoot with √16', () => {
     expect(runCli(['squareRoot', '16'])).toBe(4);
   });
 
@@ -97,5 +85,13 @@ describe('calculator CLI runner', () => {
 
   test('runCli rejects unsupported operation', () => {
     expect(() => runCli(['unknown', '5', '2'])).toThrow('Unsupported operation: unknown');
+  });
+
+  test('runCli rejects invalid number input', () => {
+    expect(() => runCli(['add', 'abc', '5'])).toThrow('Invalid number: abc');
+  });
+
+  test('runCli throws when no operation is provided', () => {
+    expect(() => runCli([])).toThrow('Usage:');
   });
 });
